@@ -121,6 +121,7 @@ app.post('/create', checkAuth, async (req, res) => {
                 if (err) return log.error(`Something went wrong with the database.\n${err}`)
             });
             log.info(`Created redirect with the ID ${id}`)
+            return res.sendStatus(201);
         }
     }
 })

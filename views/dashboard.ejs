@@ -88,20 +88,36 @@
                 id: id,
                 url: url
             }));
-            setTimeout(() => {
-                window.location.reload();
-            }, 20)
+            xhr.onreadystatechange = function () {
+                if (this.readyState === XMLHttpRequest.DONE && this.status === 201) {
+                   window.location.reload();
+                }
+            }
         }
 
         function addURL() {
             let id = document.getElementById('idInput');
             let url = document.getElementById('urlInput');
 
-            if (!id.value || !url.value) return modal('Error', 'You need to give a path and a redirect URL.', {'Close': {onclick: 'closeModal();'}});
+            if (!id.value || !url.value) return modal('Error', 'You need to give a path and a redirect URL.', {
+                'Close': {
+                    onclick: 'closeModal();'
+                }
+            });
 
-            if (id.value == 'login' || id.value == 'logout' || id.value == 'dashboard' || id.value == 'remove' || id.value == 'create') return modal('Error', 'You can\'t use the following paths.<br><br>login, logout, dashboard, remove, create', {'Close': {onclick: 'closeModal();'}});
+            if (id.value == 'login' || id.value == 'logout' || id.value == 'dashboard' || id.value == 'remove' || id
+                .value == 'create') return modal('Error',
+                'You can\'t use the following paths.<br><br>login, logout, dashboard, remove, create', {
+                    'Close': {
+                        onclick: 'closeModal();'
+                    }
+                });
 
-            if (id.value.includes('/')) return modal('Error', 'You are not allowed to use "/" in the path.', {'Close': {onclick: 'closeModal();'}});
+            if (id.value.includes('/')) return modal('Error', 'You are not allowed to use "/" in the path.', {
+                'Close': {
+                    onclick: 'closeModal();'
+                }
+            });
 
             createURL(id.value, url.value);
         }
