@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HTBrown</title>
+    <%- include('includes/head.ejs'); %>
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+</head>
+
+<body>
+    <span id="modalArea"></span>
+    <nav class="navbar is-transparent is-dark">
+        <div class="navbar-brand">
+            <a href="/" class="navbar-item"><i class="fal fa-arrow-left" style="font-size: 18px;"></i></a>
+            <span class="navbar-item"><span class="icon"><img src="/static/img/logo.png" alt="HTBrown"
+                        class="navbar-icon"></span></span>
+            <span class="navbar-item">Hey <%- req.user.username %></span>
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbar">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div class="navbar-menu" id="navbar">
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <a href="/logout" class="button is-info"><span class="icon"><i
+                                    class="fal fa-sign-out"></i></span><span>Logout</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <section class="section">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Path</th>
+                    <th>Redirect URL</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a class="button is-success" onclick="addURL()"><i class="fal fa-check"></i></a></td>
+                    <td><input type="text" class="input" id="idInput" placeholder="example"></td>
+                    <td><input type="text" class="input" id="urlInput" placeholder="https://example.com"></td>
+                </tr>
+                <% data.forEach(d => { %>
+                <tr>
+                    <td><a class="button is-danger" onclick="deleteURL('<%- d.id %>')"><i class="fal fa-trash"></i></a>
+                    </td>
+                    <th>/<%- d.id %></th>
+                    <td><%- d.url %> <a href="<%- d.url %>"><i class="fal fa-link"></i></a></td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </section>
+    <script src="https://cdn.htbrown.com/websites/navbar.js"></script>
+    <script src="/static/js/dashboard.js"></script>
+    <script>
+        function deleteURL(id) {
+            modal('Confirmation', `Are you sure you want to delete the following path?<br><br>/${id}`, {
+                'Cancel': {
+                    onclick: 'closeModal();'
+                },
+                'Delete': {
+                    type: 'is-danger',
+                    onclick: `deleteConf('${id}');`
+                }
+            })
+        }
+
+        function deleteConf(id) {
+            window.location.href = `/remove/${id}`
+        }
+
+        function createURL(id, url) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", '/create', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify({
+                id: id,
+                url: url
+            }));
+            setTimeout(() => {
+                window.location.reload();
+            }, 20)
+        }
+
+        function addURL() {
+            let id = document.getElementById('idInput');
+            let url = document.getElementById('urlInput');
+
+            if (!id.value || !url.value) return modal('Error', 'You need to give a path and a redirect URL.', {'Close': {onclick: 'closeModal();'}});
+
+            if (id.value == 'login' || id.value == 'logout' || id.value == 'dashboard' || id.value == 'remove' || id.value == 'create') return modal('Error', 'You can\'t use the following paths.<br><br>login, logout, dashboard, remove, create', {'Close': {onclick: 'closeModal();'}});
+
+            if (id.value.includes('/')) return modal('Error', 'You are not allowed to use "/" in the path.', {'Close': {onclick: 'closeModal();'}});
+
+            createURL(id.value, url.value);
+        }
+    </script>
+</body>
+
+</html>

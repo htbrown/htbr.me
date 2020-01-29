@@ -1,0 +1,25 @@
+.navbar-item,
+.button {
+    text-decoration: none !important;
+}
+
+.section {
+    padding-top: 7vh;
+    padding-bottom: 7vh;
+    padding-left: 10vw;
+    padding-right: 10vw;
+}
+
+.table {
+    width: 100%;
+}
+
+.table-button {
+    margin-left: .5vw;
+    margin-right: .5vw;
+    text-align: right;
+}
+
+.navbar-icon {
+    margin: 20px !important;
+}

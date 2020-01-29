@@ -1,0 +1,21 @@
+{
+  "name": "htbr.me",
+  "version": "1.0.0",
+  "description": "A simple URL shortener",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Hayden Brown",
+  "license": "MIT",
+  "dependencies": {
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "hexalogger": "^1.1.3",
+    "passport": "^0.4.1",
+    "passport-discord": "^0.1.3",
+    "rethinkdb": "^2.4.2",
+    "serve-favicon": "^2.5.0"
+  }
+}
