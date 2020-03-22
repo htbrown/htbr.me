@@ -2,6 +2,8 @@
 
 A simple URL shortener designed to simplify your links.
 
+See package.json for a list of dependencies. Bulma is used.
+
 ## Self-host
 
 To self host, follow these steps:
@@ -48,3 +50,10 @@ Create a table in that database and call it `urls`. It needs to be exact.
 If you're happy with your settings, run `node .` in the terminal used before and it should boot up. Navigate to hostname:port to access the URL shortener.
 
 Your port is found in your config.js file. You can change it if you wish.
+
+## Modification
+
+Logos etc. can be modified. Please see the `static/img` folder for images you can change.
+If you would like to modify the CSS, please see the `static/css` folder. Bulma is used for the framework.
+
+Please see the LICENSE file for more information on modification etc.
