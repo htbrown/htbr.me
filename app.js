@@ -8,7 +8,7 @@ const config = require('./config.js');
 const r = require('rethinkdb');
 
 r.connect({
-    db: 'htbr'
+    db: config.db
 }, (err, conn) => {
     r.dbConn = conn;
     if (err) {
