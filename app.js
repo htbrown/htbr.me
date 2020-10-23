@@ -115,7 +115,11 @@ app.post('/create', checkAuth, async (req, res) => {
 
     if (config.discord.authedIDs.includes(req.user.id)) {
         let exists = (await r.table('urls').get(id).run(r.dbConn));
-        if (id == 'login' || id == 'logout' || id == 'dashboard' || id == 'remove' || id == 'create') return;
+        app._router.stack.forEach(function(r){ // check if the redirect is an endpoint
+            if (r.route && r.route.path){
+                if (id == r.route.path) return;
+            }
+        })
         if (!exists) {
             r.table('urls').insert({id: id, url: url}).run(r.dbConn, err => {
                 if (err) return log.error(`Something went wrong with the database.\n${err}`)
